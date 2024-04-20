@@ -9,17 +9,19 @@ import VisuallyHidden from "../VisuallyHidden";
 const INPUT_STYLES = {
   small: {
     "--font-size": 14 + "px",
-    "--padding": "8px 4px 1px 24px",
+    "--padding": "8px 4px 2px 24px",
+    "--underline-size": "1px",
   },
   large: {
     "--font-size": 18 + "px",
-    "--padding": "12px 6px 2px 36px",
+    "--padding": "12px 6px 3px 36px",
+    "--underline-size": "2px",
   },
 };
 
 const ICON_SIZES = {
-  small: { size: 16, strokeWidth: 1 },
-  large: { size: 24, strokeWidth: 2 },
+  small: { size: 16, strokeWidth: 2 },
+  large: { size: 24, strokeWidth: 4 },
 };
 
 const ICON_STYLE = {
@@ -35,7 +37,6 @@ const ICON_STYLE = {
 
 const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
   const style = { "--width": Math.abs(width) + "px" };
-
   return (
     <Wrapper style={style}>
       <WrapperIcon
@@ -66,7 +67,7 @@ const Input = styled.input`
   border: none;
   padding: var(--padding);
   margin: 4px;
-  border-bottom: 2px solid ${COLORS.black};
+  border-bottom: var(--underline-size) solid ${COLORS.black};
   &:focus {
     outline: 1px dotted #212121;
     outline: 2px auto -webkit-focus-ring-color;
