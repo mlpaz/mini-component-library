@@ -8,20 +8,20 @@ import VisuallyHidden from "../VisuallyHidden";
 
 const INPUT_STYLES = {
   small: {
-    "--font-size": 14 + "px",
-    "--padding": "8px 4px 2px 24px",
+    "--font-size": 14 / 16 + "rem",
+    "--height": "24px",
     "--underline-size": "1px",
   },
   large: {
-    "--font-size": 18 + "px",
-    "--padding": "12px 6px 3px 36px",
+    "--font-size": 18 / 16 + "rem",
+    "--height": "36px",
     "--underline-size": "2px",
   },
 };
 
 const ICON_SIZES = {
-  small: { size: 16, strokeWidth: 2 },
-  large: { size: 24, strokeWidth: 4 },
+  small: { size: 16, strokeWidth: 1 },
+  large: { size: 24, strokeWidth: 2 },
 };
 
 const ICON_STYLE = {
@@ -35,37 +35,52 @@ const ICON_STYLE = {
   },
 };
 
-const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
-  const style = { "--width": Math.abs(width) + "px" };
+const IconInput = ({
+  label,
+  icon,
+  width = 250,
+  size,
+  placeholder,
+  ...delegated
+}) => {
+  const wrapperStyle = { "--width": Math.abs(width) + "px" };
   return (
-    <Wrapper style={style}>
-      <WrapperIcon
-        id={icon}
-        size={ICON_SIZES[size].size}
-        strokeWidth={ICON_SIZES[size].strokeWidth}
-        style={ICON_STYLE[size]}
+    <Wrapper style={wrapperStyle}>
+      <WrapperIcon style={{ "--size": ICON_SIZES[size].size + "px" }}>
+        <Icon
+          id={icon}
+          size={ICON_SIZES[size].size}
+          strokeWidth={ICON_SIZES[size].strokeWidth}
+        />
+      </WrapperIcon>
+      <Input
+        {...delegated}
+        placeholder={placeholder}
+        style={INPUT_STYLES[size]}
       />
-      <Input placeholder={placeholder} style={INPUT_STYLES[size]} />
     </Wrapper>
   );
 };
 
-const WrapperIcon = styled(Icon)`
+const WrapperIcon = styled.div`
   position: absolute;
-  left: var(--left);
-  top: var(--top);
-  pointer-events: none;
+  top: 0px;
+  bottom: 0px;
+  left: 4px;
+  margin: auto 0;
+  height: var(--size);
 `;
 
 const Input = styled.input`
+  height: var(--height);
   font-size: var(--font-size);
-  color: ${COLORS.gray700};
+  color: inherit;
   font-weight: 700;
-  width: 100%;
+  width: var(--width);
   display: block;
   appearance: none;
   border: none;
-  padding: var(--padding);
+  padding-left: var(--height);
   margin: 4px;
   border-bottom: var(--underline-size) solid ${COLORS.black};
   &:focus {
@@ -78,15 +93,13 @@ const Input = styled.input`
     color: ${COLORS.gray500};
     font-weight: 400;
   }
-  &:hover {
-    color: ${COLORS.black};
-  }
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.label`
+  display: block;
   color: ${COLORS.gray700};
   position: relative;
-  width: var(--width);
+
   &:hover {
     color: ${COLORS.black};
   }
